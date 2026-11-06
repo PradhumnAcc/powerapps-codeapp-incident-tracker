@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "appId": null,
+  "appDisplayName": "CodeApp",
+  "region": "prod",
+  "environmentId": "Default-e0793d39-0939-496d-b129-198edd916feb",
+  "description": " ",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "localAppUrl": "http://localhost:3000",
+  "logoPath": "Default",
+  "connectionReferences": {
+    "d10f74be-1d20-493d-a609-e7192603864b": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_office365users",
+      "displayName": "Office 365 Users",
+      "dataSources": [
+        "office365users"
+      ],
+      "dataSets": {}
+    },
+    "85013689-af5c-477e-8cdb-36b1ce5d6fe1": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+      "displayName": "SharePoint",
+      "dataSources": [
+        "sharepointincidents"
+      ],
+      "dataSets": {
+        "https://ts.accenture.com/sites/Rohm759": {
+          "dataSources": {
+            "sharepointincidents": {
+              "tableName": "09c037b9-242a-40fd-8974-65a04426ac0b"
+            }
+          }
+        }
+      }
+    }
+  },
+  "databaseReferences": {}
+}
