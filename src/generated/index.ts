@@ -5,9 +5,11 @@
 
 // Models
 export * as CommonModels from './models/CommonModels';
+export * as Office365OutlookModel from './models/Office365OutlookModel';
 export * as Office365UsersModel from './models/Office365UsersModel';
 export * as SharePointIncidentsModel from './models/SharePointIncidentsModel';
 
 // Services
+export * from './services/Office365OutlookService';
 export * from './services/Office365UsersService';
 export * from './services/SharePointIncidentsService';

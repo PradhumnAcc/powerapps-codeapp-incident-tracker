@@ -100,15 +100,15 @@ function toWriteRecord(draft: IncidentDraft): Omit<SharePointIncidentsWrite, 'ID
     Title: draft.incidentNumber.trim(),
     field_2: draft.reportedDate,
     field_3: draft.resolvedDate ?? '',
-    field_4: draft.status,
-    field_5: draft.category,
+    field_4: { Value: draft.status },
+    field_5: { Value: draft.category },
     field_6: draft.description.trim(),
     AssignTo: toSharePointPerson(draft.assignedTo),
   }
 }
 
 export async function getIncidents(): Promise<Incident[]> {
-  const result = await SharePointIncidentsService.getAll({ orderBy: ['field_2 desc'] })
+  const result = await SharePointIncidentsService.getAll({ orderBy: ['field_2 desc'], top: 5000 })
   throwOnError(result.error, 'Unable to load incidents from SharePoint.')
   return (result.data ?? []).map(mapSharePointIncident)
 }

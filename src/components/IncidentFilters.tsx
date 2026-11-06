@@ -15,9 +15,24 @@ interface IncidentFiltersProps {
   assignees: IncidentPerson[]
   onChange: (filters: IncidentFilterValues) => void
   onClear: () => void
+  onExport: () => void
+  onSendEmail: () => void
+  exportDisabled: boolean
+  sendEmailDisabled: boolean
 }
 
-export function IncidentFilters({ filters, statuses, categories, assignees, onChange, onClear }: IncidentFiltersProps) {
+export function IncidentFilters({
+  filters,
+  statuses,
+  categories,
+  assignees,
+  onChange,
+  onClear,
+  onExport,
+  onSendEmail,
+  exportDisabled,
+  sendEmailDisabled,
+}: IncidentFiltersProps) {
   return (
     <section className="filter-toolbar" aria-label="Search and filter incidents">
       <label className="search-field">
@@ -59,7 +74,15 @@ export function IncidentFilters({ filters, statuses, categories, assignees, onCh
           <option key={person.claims} value={person.claims}>{person.displayName}</option>
         ))}
       </Select>
-      <Button appearance="subtle" className="clear-filters" onClick={onClear}>Clear filters</Button>
+      <div className="filter-actions">
+        <Button appearance="primary" className="export-incidents" disabled={sendEmailDisabled} onClick={onSendEmail}>
+          Send email
+        </Button>
+        <Button appearance="secondary" className="export-incidents" disabled={exportDisabled} onClick={onExport}>
+          Export to Excel
+        </Button>
+        <Button appearance="subtle" className="clear-filters" onClick={onClear}>Clear filters</Button>
+      </div>
     </section>
   )
 }

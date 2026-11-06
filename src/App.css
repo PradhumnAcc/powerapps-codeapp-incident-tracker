@@ -206,7 +206,15 @@
 }
 
 .assignee-filter { min-width: 160px; }
-.clear-filters { flex: 0 0 auto; font-size: 12px; }
+.filter-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.export-incidents,
+.clear-filters { font-size: 12px; }
 
 .table-scroll {
   overflow-x: auto;
@@ -443,7 +451,7 @@
   .search-field { flex-basis: 100%; }
   .filter-select { flex: 1 1 calc(50% - 8px); min-width: 0; max-width: none; }
   .assignee-filter { flex-basis: 100%; }
-  .clear-filters { margin-left: auto; }
+  .filter-actions { margin-left: auto; }
   .error-panel { margin: 12px; align-items: flex-start; flex-direction: column; }
   .detail-list > div { grid-template-columns: 108px minmax(0, 1fr); gap: 11px; }
 }

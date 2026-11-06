@@ -97,8 +97,8 @@ export interface SharePointIncidentsRead extends SharePointIncidentsBase {
 }
 
 export interface SharePointIncidentsWrite extends SharePointIncidentsBase {
-  field_4?: string;
-  field_5?: string;
+  field_4?: { Value: string };
+  field_5?: { Value: string };
   AssignTo?: AssignToValue;
   Author?: AuthorValue;
   Editor?: EditorValue;

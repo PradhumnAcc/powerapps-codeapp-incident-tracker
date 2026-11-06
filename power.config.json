@@ -33,6 +33,14 @@
           }
         }
       }
+    },
+    "87599f45-c669-472b-ac4d-11573ee305ef": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_office365",
+      "displayName": "Office 365 Outlook",
+      "dataSources": [
+        "office365"
+      ],
+      "dataSets": {}
     }
   },
   "databaseReferences": {}

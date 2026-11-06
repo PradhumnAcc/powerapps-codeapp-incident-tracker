@@ -18,6 +18,8 @@ import { IncidentForm } from './components/IncidentForm'
 import { IncidentTable } from './components/IncidentTable'
 import type { Incident, IncidentDraft, IncidentLookups } from './models/Incident'
 import { createIncident, getIncidentLookups, getIncidents, updateIncident } from './services/incidentService'
+import { sendIncidentReportEmail } from './services/outlookService'
+import { exportIncidentsToExcel } from './utils/exportIncidents'
 import './App.css'
 
 const emptyLookups: IncidentLookups = { statuses: [], categories: [], assignees: [] }
@@ -49,6 +51,8 @@ function App() {
   const [editingIncident, setEditingIncident] = useState<Incident | null>(null)
   const [formOpen, setFormOpen] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [sendingEmail, setSendingEmail] = useState(false)
   const { dispatchToast } = useToastController('incident-toaster')
 
   useEffect(() => {
@@ -127,6 +131,41 @@ function App() {
     setFormOpen(true)
   }
 
+  async function handleExport() {
+    setExporting(true)
+    try {
+      await exportIncidentsToExcel(visibleIncidents)
+    } catch (exportError) {
+      dispatchToast(
+        <Toast><ToastTitle>{exportError instanceof Error ? exportError.message : 'Unable to export incidents to Excel.'}</ToastTitle></Toast>,
+        { intent: 'error', timeout: 5000 },
+      )
+    } finally {
+      setExporting(false)
+    }
+  }
+
+  async function handleSendEmail() {
+    setSendingEmail(true)
+    try {
+      const hasFilters = Boolean(
+        filters.search.trim() || filters.status || filters.category || filters.assignee,
+      )
+      await sendIncidentReportEmail(visibleIncidents, hasFilters)
+      dispatchToast(
+        <Toast><ToastTitle>Incident report email sent to pradhumn.pathak@accenture.com.</ToastTitle></Toast>,
+        { intent: 'success', timeout: 5000 },
+      )
+    } catch (draftError) {
+      dispatchToast(
+        <Toast><ToastTitle>{draftError instanceof Error ? draftError.message : 'Unable to send the incident report email.'}</ToastTitle></Toast>,
+        { intent: 'error', timeout: 5000 },
+      )
+    } finally {
+      setSendingEmail(false)
+    }
+  }
+
   return (
     <FluentProvider theme={webLightTheme}>
       <div className="incident-app">
@@ -173,6 +212,10 @@ function App() {
               assignees={assignees}
               onChange={setFilters}
               onClear={() => setFilters(emptyFilters)}
+              onExport={handleExport}
+              onSendEmail={handleSendEmail}
+              exportDisabled={loading || exporting || sendingEmail || visibleIncidents.length === 0}
+              sendEmailDisabled={loading || exporting || sendingEmail || visibleIncidents.length === 0}
             />
 
             {error && (
